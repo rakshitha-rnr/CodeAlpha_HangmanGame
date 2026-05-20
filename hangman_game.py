@@ -1,60 +1,39 @@
 import random
 
-# Predefined words
-word_list = ["python", "banana", "school", "planet", "guitar"]
+words = ["cat", "dog", "sun"]
 
-# Randomly choose a word
-secret_word = random.choice(word_list)
+word = random.choice(words)
 
-guessed_letters = []
-attempts_left = 6
+guess = ""
+chance = 5
 
-print("🎮 Welcome to Hangman Game")
-print("Guess the word one letter at a time!")
+print("🎮 Hangman Game")
 
-while attempts_left > 0:
+while chance > 0:
 
-    # Display hidden word
-    display = ""
+    show = ""
 
-    for letter in secret_word:
-        if letter in guessed_letters:
-            display += letter + " "
+    for i in word:
+        if i in guess:
+            show += i + " "
         else:
-            display += "_ "
+            show += "_ "
 
-    print("\nWord:", display)
+    print(show)
 
-    # Check if player won
-    if "_" not in display:
-        print("🎉 You Won!")
-        print("The word was:", secret_word)
+    if "_" not in show:
+        print("🎉 You Win")
         break
 
-    # User input
-    guess = input("Enter a letter: ").lower()
+    letter = input("Enter letter: ")
 
-    # Validate input
-    if len(guess) != 1 or not guess.isalpha():
-        print("⚠ Please enter only one alphabet letter.")
-        continue
+    guess += letter
 
-    # Check repeated letter
-    if guess in guessed_letters:
-        print("⚠ Letter already guessed.")
-        continue
+    if letter not in word:
+        chance -= 1
+        print("❌ Wrong")
+        print("Chances left:", chance)
 
-    guessed_letters.append(guess)
-
-    # Correct or wrong guess
-    if guess in secret_word:
-        print("✅ Correct!")
-    else:
-        attempts_left -= 1
-        print("❌ Wrong guess!")
-        print("Remaining attempts:", attempts_left)
-
-# If player loses
-if attempts_left == 0:
-    print("\n💀 Game Over!")
-    print("Correct word was:", secret_word)
+if chance == 0:
+    print("💀 Game Over")
+    print("Word was:", word)
